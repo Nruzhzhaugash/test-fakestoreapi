@@ -12,8 +12,8 @@ const Navbar = () => {
       <Link href={"/createproduct"} className="text-md hover:underline">
         Create products
       </Link>
-      <Link href={""} className="text-md hover:underline">
-        All products
+      <Link href={"/updateproduct"} className="text-md hover:underline">
+        Update products
       </Link>
     </nav>
   );

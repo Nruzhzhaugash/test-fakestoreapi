@@ -1,7 +1,7 @@
 "use client";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createProduct } from "@/shared/model/createProduct/createSlice";
 import { useAppSelector } from "@/shared/lib/reduxHooks";
 import { Button } from "antd";
@@ -43,7 +43,9 @@ const ProductForm: React.FC = () => {
       {({ isSubmitting }) => (
         <Form className="flex flex-col gap-5">
           <div className="flex flex-col">
-            <label htmlFor="title" className='text-md mb-2.5'>Title</label>
+            <label htmlFor="title" className="text-md mb-2.5">
+              Title
+            </label>
             <Field
               type="text"
               className="border-[1px] border-black border-solid"
@@ -56,7 +58,9 @@ const ProductForm: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="price" className='text-md mb-2.5'>Price</label>
+            <label htmlFor="price" className="text-md mb-2.5">
+              Price
+            </label>
             <Field
               type="text"
               name="price"
@@ -69,7 +73,9 @@ const ProductForm: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="description" className='text-md mb-2.5'>Description</label>
+            <label htmlFor="description" className="text-md mb-2.5">
+              Description
+            </label>
             <Field
               type="text"
               name="description"
@@ -82,7 +88,9 @@ const ProductForm: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="image" className='text-md mb-2.5'>Image URL</label>
+            <label htmlFor="image" className="text-md mb-2.5">
+              Image URL
+            </label>
             <Field
               type="text"
               name="image"
@@ -95,7 +103,9 @@ const ProductForm: React.FC = () => {
             />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="category" className='text-md mb-2.5'>Category</label>
+            <label htmlFor="category" className="text-md mb-2.5">
+              Category
+            </label>
             <Field
               type="text"
               name="category"
