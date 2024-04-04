@@ -25,7 +25,7 @@ interface ProductsState {
 }
 
 const initialState: ProductsState = {
-  products: [],
+  products: JSON.parse(localStorage.getItem("products") || "[]"),
   loading: false,
   error: null,
 };
@@ -47,6 +47,7 @@ const createProductSlice = createSlice({
   reducers: {
     setProducts: (state, action: PayloadAction<Product[]>) => {
       state.products = action.payload;
+      localStorage.setItem("products", JSON.stringify(action.payload)); 
     },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
@@ -63,6 +64,7 @@ const createProductSlice = createSlice({
     builder.addCase(createProduct.fulfilled, (state, action) => {
       state.loading = false;
       state.products.push(action.payload);
+      localStorage.setItem("products", JSON.stringify(state.products));
     });
     builder.addCase(createProduct.rejected, (state, action) => {
       state.loading = false;
