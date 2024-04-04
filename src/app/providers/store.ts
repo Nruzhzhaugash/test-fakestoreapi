@@ -1,7 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
+import productSlice from "@/shared/model/products/products";
+import createProductSlice from "@/shared/model/createProduct/createSlice";
+import { apiSlice } from "@/shared/api/apiSlice";
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    products: productSlice,
+    create: createProductSlice,
+    [apiSlice.reducerPath]: apiSlice.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware),
   devTools: true,
 });
 

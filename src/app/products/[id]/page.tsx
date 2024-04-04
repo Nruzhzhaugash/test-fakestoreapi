@@ -1,12 +1,12 @@
-import { HomePage } from "@/pages/Home";
+import SoloProductPage from "@/pages/SoloProd/ui/SoloProd";
 import Layout from "@/widgets/Layout/Layout";
 
-export default function Home() {
+export default function SoloProd() {
   return (
     <Layout>
       <main className="container">
-        <HomePage />
+        <SoloProductPage />
       </main>
     </Layout>
-  );
+  )
 }
