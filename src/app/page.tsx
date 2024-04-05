@@ -1,4 +1,4 @@
-import { HomePage } from "@/pages/Home";
+import HomePage from "@/pages/Home/ui/Home";
 import Layout from "@/widgets/Layout/Layout";
 
 export default function Home() {

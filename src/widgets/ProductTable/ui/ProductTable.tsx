@@ -1,14 +1,14 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { Table, Button, Modal, message } from "antd";
+import * as Antd from 'antd'
 import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
 import {
   Product,
   deleteProduct,
   updateProduct,
 } from "@/shared/model/products/products";
-import { EditProductForm } from "@/features/updateProduct";
 import Image from "next/image";
+import EditProductForm from "@/features/updateProduct/ui/updateForm";
 
 const ProductsTable: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -25,11 +25,11 @@ const ProductsTable: React.FC = () => {
       dispatch(deleteProduct(productId))
         .unwrap()
         .then(() => {
-          message.success("Product deleted successfully");
+          Antd.message.success("Product deleted successfully");
         })
         .catch((error) => {
           console.error("Error deleting product:", error);
-          message.error("Failed to delete product");
+          Antd.message.error("Failed to delete product");
         });
     },
     [dispatch]
@@ -107,14 +107,14 @@ const ProductsTable: React.FC = () => {
       key: "action",
       render: (_: any, record: Product) => (
         <div className="flex flex-col gap-5">
-          <Button
+          <Antd.Button
             type="primary"
             onClick={() => handleEdit(record)}
             style={{ marginRight: 8 }}
           >
             Edit
-          </Button>
-          <Button
+          </Antd.Button>
+          <Antd.Button
             className="bg-red-600 text-white"
             onClick={() => {
               setEditingProduct(record);
@@ -122,7 +122,7 @@ const ProductsTable: React.FC = () => {
             }}
           >
             Delete
-          </Button>
+          </Antd.Button>
         </div>
       ),
     },
@@ -131,9 +131,9 @@ const ProductsTable: React.FC = () => {
   return (
     <div className="text-xl mb-8">
       <h2>Existing Products</h2>
-      <Table dataSource={products} columns={columns} />
+      <Antd.Table dataSource={products} columns={columns} />
 
-      <Modal
+      <Antd.Modal
         title="Edit Product"
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
@@ -149,9 +149,9 @@ const ProductsTable: React.FC = () => {
             }
           }}
         />
-      </Modal>
+      </Antd.Modal>
 
-      <Modal
+      <Antd.Modal
         title="Confirm Deletion"
         onOk={() => {
           if (editingProduct) {
@@ -164,7 +164,7 @@ const ProductsTable: React.FC = () => {
         cancelText="Cancel"
       >
         <p>Are you sure you want to delete this product?</p>
-      </Modal>
+      </Antd.Modal>
     </div>
   );
 };

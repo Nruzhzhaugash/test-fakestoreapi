@@ -1,28 +1,29 @@
 "use client";
-
 import { useGetProductQuery } from "@/shared/api/apiSlice";
-import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
-import { Product } from "@/widgets/Product";
-import { ProductList } from "@/widgets/ProductList";
-import { RightOutlined } from "@ant-design/icons";
+import { useAppSelector } from "@/shared/lib/reduxHooks";
+import Product from "@/widgets/Product/ui/Product";
+import ProductList from "@/widgets/ProductList/ui/ProductList";
+import RightOutlined from "@ant-design/icons";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
-const SoloProductPage = () => {
-  const dispatch = useAppDispatch();
+export default function SoloProductPage() {
   const params = useParams() as { id: string | number };
   const {
     products: { list },
   } = useAppSelector((state) => state);
 
-  const { data, isLoading, isFetching, isSuccess } = useGetProductQuery({
+  const { data } = useGetProductQuery({
     id: params.id,
   });
 
   return (
     <section className="py-10">
       <div className="flex gap-[6px] mb-10">
-        <Link href={"/products"} className="text-md font-meduim hover:underline">
+        <Link
+          href={"/products"}
+          className="text-md font-meduim hover:underline"
+        >
           Product Listing
         </Link>
         <RightOutlined className="relative top-[5px]" />
@@ -37,4 +38,3 @@ const SoloProductPage = () => {
   );
 };
 
-export default SoloProductPage;

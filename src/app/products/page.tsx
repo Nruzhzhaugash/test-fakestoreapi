@@ -1,4 +1,4 @@
-import { ProductsPage } from "@/pages/Products";
+import ProductsPage from "@/pages/Products/ui/ProductsPage";
 import Layout from "@/widgets/Layout/Layout";
 
 export default function Products() {

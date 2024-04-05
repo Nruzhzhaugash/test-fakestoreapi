@@ -1,5 +1,5 @@
 "use client";
-import { ProductCard } from "@/entities/ProductCard";
+import ProductCard from "@/entities/ProductCard/ui/ProductCard";
 import Link from "next/link";
 
 const ProductList = ({ amount, products }: ProductProps) => {

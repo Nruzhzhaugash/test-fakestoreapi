@@ -1,8 +1,7 @@
 "use client";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Formik from 'formik'
 import * as Yup from "yup";
-import { v4 as uuidv4 } from "uuid";
-import { Button, Input, Space } from "antd";
+import * as Antd from 'antd' 
 import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
 import { createProduct } from "@/shared/model/createProduct/createSlice";
 
@@ -14,7 +13,7 @@ const ProductForm = () => {
   const handleSubmit = async (values: any, { setSubmitting }: any) => {
     try {
 
-      const updatedValues = { ...values, id: uuidv4() };
+      const updatedValues = { ...values, id: Date.now() };
       // @ts-ignore
       dispatch(createProduct(updatedValues));
       setSubmitting(false);
@@ -24,7 +23,7 @@ const ProductForm = () => {
   };
 
   return (
-    <Formik
+    <Formik.Formik
       initialValues={{
         title: "",
         price: "",
@@ -42,11 +41,11 @@ const ProductForm = () => {
       onSubmit={handleSubmit}
     >
       {({ isSubmitting }) => (
-        <Form>
+        <Formik.Form>
           <div>
             <label htmlFor="title">Title</label>
-            <Field as={Input} type="text" name="title" />
-            <ErrorMessage
+            <Formik.Field as={Antd.Input} type="text" name="title" />
+            <Formik.ErrorMessage
               name="title"
               className="text-red-600 mt-1.5"
               component="div"
@@ -54,8 +53,8 @@ const ProductForm = () => {
           </div>
           <div>
             <label htmlFor="price">Price</label>
-            <Field as={Input} type="number" name="price" />
-            <ErrorMessage
+            <Formik.Field as={Antd.Input} type="number" name="price" />
+            <Formik.ErrorMessage
               name="price"
               className="text-red-600 mt-1.5"
               component="div"
@@ -63,8 +62,8 @@ const ProductForm = () => {
           </div>
           <div>
             <label htmlFor="description">Description</label>
-            <Field as={Input.TextArea} name="description" />
-            <ErrorMessage
+            <Formik.Field as={Antd.Input.TextArea} name="description" />
+            <Formik.ErrorMessage
               name="description"
               className="text-red-600 mt-1.5"
               component="div"
@@ -72,8 +71,8 @@ const ProductForm = () => {
           </div>
           <div>
             <label htmlFor="image">Image URL</label>
-            <Field as={Input} type="text" name="image" />
-            <ErrorMessage
+            <Formik.Field as={Antd.Input} type="text" name="image" />
+            <Formik.ErrorMessage
               name="image"
               className="text-red-600 mt-1.5"
               component="div"
@@ -81,22 +80,22 @@ const ProductForm = () => {
           </div>
           <div>
             <label htmlFor="category">Category</label>
-            <Field as={Input} type="text" name="category" />
-            <ErrorMessage
+            <Formik.Field as={Antd.Input} type="text" name="category" />
+            <Formik.ErrorMessage
               name="category"
               className="text-red-600 mt-1.5"
               component="div"
             />
           </div>
-          <Space>
-            <Button type="primary" htmlType="submit" loading={loading}>
+          <Antd.Space>
+            <Antd.Button type="primary" htmlType="submit" loading={loading}>
               {isSubmitting ? "Submitting" : "Submit"}
-            </Button>
-          </Space>
+            </Antd.Button>
+          </Antd.Space>
           {error && <p>{error}</p>}
-        </Form>
+        </Formik.Form>
       )}
-    </Formik>
+    </Formik.Formik>
   );
 };
 

@@ -3,12 +3,17 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const saveProductsToLocalStorage = (products: Product[]) => {
-  localStorage.setItem("products", JSON.stringify(products));
+  if (typeof window !== "undefined") {
+    localStorage.setItem("products", JSON.stringify(products));
+  }
 };
 
-const loadProductsFromLocalStorage = () => {
-  const savedProducts = localStorage.getItem("products");
-  return savedProducts ? JSON.parse(savedProducts) : [];
+const loadProductsFromLocalStorage = (): Product[] => {
+  if (typeof window !== "undefined") {
+    const savedProducts = localStorage.getItem("products");
+    return savedProducts ? JSON.parse(savedProducts) : [];
+  }
+  return [];
 };
 
 export const getProducts = createAsyncThunk(

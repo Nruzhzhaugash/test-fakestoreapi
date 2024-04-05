@@ -1,4 +1,3 @@
-import axios from 'axios';
 
 export const buildUrl = (url: string, params: any) => {
   let urlWithParams = url;
@@ -10,8 +9,3 @@ export const buildUrl = (url: string, params: any) => {
 
   return urlWithParams;
 };
-
-interface Api {
-  id: string | number;
-  data: any
-}

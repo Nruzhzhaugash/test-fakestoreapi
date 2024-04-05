@@ -2,18 +2,17 @@
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
 import { getProducts } from "@/shared/model/products/products";
-import { ProductList } from "@/widgets/ProductList";
-import { Button, Flex, Switch, Tabs } from "antd";
-import type { ConfigProviderProps } from "antd";
+import { Tabs, Switch, Button, ConfigProviderProps, Flex } from "antd";
 import Loader from "@/shared/ui/Loader/Loader";
-import { CreateProductList } from "@/widgets/createProductList";
 import { useRouter } from "next/navigation";
-import { ProductsTable } from "@/widgets/ProductTable";
+import ProductList from "@/widgets/ProductList/ui/ProductList";
+import CreatedProductsList from "@/widgets/createProductList/ui/createProductList";
+import ProductsTable from "@/widgets/ProductTable/ui/ProductTable";
 
 const { TabPane } = Tabs;
 type SizeType = ConfigProviderProps["componentSize"];
 
-const ProductsPage = () => {
+export default function ProductsPage() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const {
@@ -37,14 +36,19 @@ const ProductsPage = () => {
   }, [dispatch, displayedProducts]);
 
   useEffect(() => {
-    const savedShowPublishedOnly = localStorage.getItem("showPublishedOnly");
+    const savedShowPublishedOnly =
+      typeof window !== "undefined"
+        ? localStorage.getItem("showPublishedOnly")
+        : null;
     if (savedShowPublishedOnly) {
       setShowPublishedOnly(savedShowPublishedOnly === "true");
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("showPublishedOnly", String(showPublishedOnly));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("showPublishedOnly", String(showPublishedOnly));
+    }
   }, [showPublishedOnly]);
 
   useEffect(() => {
@@ -91,7 +95,7 @@ const ProductsPage = () => {
               </h2>
               <div className="grid grid-cols-4 gap-10">
                 {activeTab === "createdProducts" && (
-                  <CreateProductList amount={displayedProducts} />
+                  <CreatedProductsList amount={displayedProducts} />
                 )}
               </div>
             </TabPane>
@@ -136,6 +140,4 @@ const ProductsPage = () => {
       )}
     </section>
   );
-};
-
-export default ProductsPage;
+}

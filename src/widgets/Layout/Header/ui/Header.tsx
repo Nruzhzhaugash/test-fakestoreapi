@@ -1,4 +1,4 @@
-import { Navbar } from "@/entities/Navbar";
+import Navbar from "@/entities/Navbar/ui/Navbar";
 
 const Header = () => {
   return (

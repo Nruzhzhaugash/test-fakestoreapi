@@ -1,8 +1,9 @@
-import { ProductCard } from "@/entities/ProductCard";
+"use client"
 import { useAppSelector } from "@/shared/lib/reduxHooks";
 import Link from "next/link";
 import React from "react";
 import { CreateProductListProps } from "./props";
+import ProductCard from "@/entities/ProductCard/ui/ProductCard";
 
 const CreatedProductsList = ({ amount }: CreateProductListProps) => {
   const createdProducts = useAppSelector((state) => state.create.products);

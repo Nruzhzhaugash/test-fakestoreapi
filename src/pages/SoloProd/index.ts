@@ -1,3 +1,3 @@
-import SoloProductPage from "@/app/products/[id]/page";
+// import SoloProductPage from "@/app/products/[id]/page";
 
-export { SoloProductPage }
+// export { SoloProductPage }

@@ -16,7 +16,7 @@ interface ProductsState {
 }
 
 const initialState: ProductsState = {
-  products: JSON.parse(localStorage.getItem("products") || "[]"),
+  products: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem("products") || "[]") : [],
   loading: false,
   error: null,
 };

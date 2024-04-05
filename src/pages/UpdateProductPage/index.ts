@@ -1,3 +1,3 @@
-import UpdateProductPage from "./ui/UpdateProductPage";
+// import UpdateProductPage from "./ui/UpdateProductPage";
 
-export { UpdateProductPage };
+// export { UpdateProductPage };

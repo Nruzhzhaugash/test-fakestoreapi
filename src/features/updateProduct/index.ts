@@ -1,3 +1,3 @@
-import EditProductForm from "./ui/updateForm";
+// import EditProductForm from "./ui/updateForm";
 
-export { EditProductForm } 
+// export { EditProductForm } 
