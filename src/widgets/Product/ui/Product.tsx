@@ -1,6 +1,6 @@
 import { ProductProps } from "./props";
 
-const Product = (item: ProductProps) => {
+export default function Product(item: ProductProps) {
   const { image, title, description, price, category } = item;
 
   return (
@@ -26,4 +26,3 @@ const Product = (item: ProductProps) => {
   );
 };
 
-export default Product;

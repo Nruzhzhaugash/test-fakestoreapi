@@ -10,7 +10,7 @@ import {
 import Image from "next/image";
 import EditProductForm from "@/features/updateProduct/ui/updateForm";
 
-const ProductsTable: React.FC = () => {
+export default function ProductsTable() {
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.products.list);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -168,5 +168,3 @@ const ProductsTable: React.FC = () => {
     </div>
   );
 };
-
-export default ProductsTable;

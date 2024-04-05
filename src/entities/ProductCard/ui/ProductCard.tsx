@@ -1,4 +1,4 @@
-const ProductCard = ({ image, price, title, category }: ProductCardI) => {
+export default function ProductCard({ image, price, title, category }: ProductCardI) {
   return (
     <>
       <div className="p-5 border-b-[2px] border-black border-solid ">
@@ -27,4 +27,3 @@ const ProductCard = ({ image, price, title, category }: ProductCardI) => {
   );
 };
 
-export default ProductCard;

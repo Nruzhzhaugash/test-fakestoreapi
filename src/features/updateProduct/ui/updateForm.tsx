@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { Button, Form, Input, message, Modal } from "antd";
 import React, { useState } from "react";
 import { Product } from "@/shared/model/products/products";
@@ -9,11 +9,11 @@ interface EditProductFormProps {
   onDelete: () => void;
 }
 
-const EditProductForm: React.FC<EditProductFormProps> = ({
+export default function EditProductForm({
   product,
   onSave,
   onDelete,
-}) => {
+}: EditProductFormProps) {
   const [editedProduct, setEditedProduct] = useState<Product | any>(product);
 
   const handleSave = () => {
@@ -98,6 +98,4 @@ const EditProductForm: React.FC<EditProductFormProps> = ({
       </Form.Item>
     </Form>
   );
-};
-
-export default EditProductForm;
+}

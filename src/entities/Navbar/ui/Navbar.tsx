@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const Navbar = () => {
+export default function Navbar() {
   return (
     <nav className="flex gap-[30px] justify-center items-center">
       <Link href={"/"} className="text-md hover:underline">
@@ -19,4 +19,3 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;

@@ -11,7 +11,7 @@ import {
 import Link from "next/link";
 import { useAppSelector } from "@/shared/lib/reduxHooks";
 
-const ListEditProductPage = () => {
+export default function ListEditProductPage() {
   const createProducts = useAppSelector((state) => state.create.products);
 
   return (
@@ -47,4 +47,3 @@ const ListEditProductPage = () => {
   );
 };
 
-export default ListEditProductPage;

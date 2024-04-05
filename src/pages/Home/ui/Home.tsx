@@ -1,4 +1,4 @@
-const HomePage = () => {
+export default function HomePage() {
   return (
     <section className="">
       <h1 className="text-xl pt-5 mb-10">Добро пожаловать на наш сайт!</h1>
@@ -20,4 +20,3 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;

@@ -35,21 +35,21 @@ export default function ProductsPage() {
     return () => clearTimeout(timeout);
   }, [dispatch, displayedProducts]);
 
-  useEffect(() => {
-    const savedShowPublishedOnly =
-      typeof window !== "undefined"
-        ? localStorage.getItem("showPublishedOnly")
-        : null;
-    if (savedShowPublishedOnly) {
-      setShowPublishedOnly(savedShowPublishedOnly === "true");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const savedShowPublishedOnly =
+  //     typeof window !== "undefined"
+  //       ? localStorage.getItem("showPublishedOnly")
+  //       : null;
+  //   if (savedShowPublishedOnly) {
+  //     setShowPublishedOnly(savedShowPublishedOnly === "true");
+  //   }
+  // }, []);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("showPublishedOnly", String(showPublishedOnly));
-    }
-  }, [showPublishedOnly]);
+  // useEffect(() => {
+  //   if (typeof window !== "undefined") {
+  //     localStorage.setItem("showPublishedOnly", String(showPublishedOnly));
+  //   }
+  // }, [showPublishedOnly]);
 
   useEffect(() => {
     const hash = window.location.hash.substr(1);

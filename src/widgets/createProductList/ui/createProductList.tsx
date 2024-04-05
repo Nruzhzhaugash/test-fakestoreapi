@@ -5,7 +5,7 @@ import React from "react";
 import { CreateProductListProps } from "./props";
 import ProductCard from "@/entities/ProductCard/ui/ProductCard";
 
-const CreatedProductsList = ({ amount }: CreateProductListProps) => {
+export default function CreatedProductsList({ amount }: CreateProductListProps) {
   const createdProducts = useAppSelector((state) => state.create.products);
   const list = createdProducts.filter((_, i) => i < amount);
 
@@ -25,4 +25,3 @@ const CreatedProductsList = ({ amount }: CreateProductListProps) => {
   );
 };
 
-export default CreatedProductsList;

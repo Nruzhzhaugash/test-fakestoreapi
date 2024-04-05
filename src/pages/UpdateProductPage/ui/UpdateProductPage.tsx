@@ -1,7 +1,4 @@
-"use client";
-import React from "react";
-
-const ProductEditPage: React.FC = () => {
+export default function ProductEditPage() {
 
   return (
     <div>
@@ -11,4 +8,3 @@ const ProductEditPage: React.FC = () => {
   );
 };
 
-export default ProductEditPage;

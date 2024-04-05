@@ -1,6 +1,6 @@
 import Navbar from "@/entities/Navbar/ui/Navbar";
 
-const Header = () => {
+export default function Header() {
   return (
     <header className="py-6 container flex justify-between items-center">
       <div className="logo">
@@ -15,4 +15,3 @@ const Header = () => {
   );
 };
 
-export default Header;

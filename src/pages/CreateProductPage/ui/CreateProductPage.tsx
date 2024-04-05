@@ -1,6 +1,6 @@
 import ProductForm from "@/features/createForm/ui/createForm";
 
-const CreateProductPage = () => {
+export default function CreateProductPage() {
   return (
     <section className="py-10">
       <h1 className="text-xl mb-12">Create Product</h1>
@@ -11,4 +11,3 @@ const CreateProductPage = () => {
   );
 };
 
-export default CreateProductPage;

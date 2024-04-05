@@ -5,7 +5,7 @@ import * as Antd from 'antd'
 import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
 import { createProduct } from "@/shared/model/createProduct/createSlice";
 
-const ProductForm = () => {
+export default function ProductForm() {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.products.loading);
   const error = useAppSelector((state) => state.products.error);
@@ -99,4 +99,3 @@ const ProductForm = () => {
   );
 };
 
-export default ProductForm;
