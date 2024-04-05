@@ -8,6 +8,7 @@ import type { ConfigProviderProps } from "antd";
 import Loader from "@/shared/ui/Loader/Loader";
 import { CreateProductList } from "@/widgets/createProductList";
 import { useRouter } from "next/navigation";
+import { ProductsTable } from "@/widgets/ProductTable";
 
 const { TabPane } = Tabs;
 type SizeType = ConfigProviderProps["componentSize"];
@@ -77,8 +78,18 @@ const ProductsPage = () => {
                 Created Products
               </h2>
               <div className="grid grid-cols-4 gap-10">
-                {activeTab === "createdProducts" && <CreateProductList amount={displayedProducts} />}
+                {activeTab === "createdProducts" && (
+                  <CreateProductList amount={displayedProducts} />
+                )}
               </div>
+            </TabPane>
+            <TabPane tab="Products Table" key="tableProducts">
+              <h1 className="text-xl mb-10 whitespace-nowrap">
+                Products Table
+              </h1>
+              {activeTab === "tableProducts" && (
+                <ProductsTable />
+              )}
             </TabPane>
           </Tabs>
           <Flex gap="15px" wrap="wrap" className="items-center justify-center">

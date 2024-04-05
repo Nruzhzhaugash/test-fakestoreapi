@@ -6,12 +6,11 @@ import { CreateProductListProps } from "./props";
 
 const CreatedProductsList = ({ amount }: CreateProductListProps) => {
   const createdProducts = useAppSelector((state) => state.create.products);
-
-  const list = createdProducts.filter((_,i) => i < amount);
+  const list = createdProducts.filter((_, i) => i < amount);
 
   return (
     <>
-      {createdProducts.map((product) => (
+      {list.map((product) => (
         <Link href={`/products/${product.id}`} key={product.id}>
           <ProductCard
             image={product.image}

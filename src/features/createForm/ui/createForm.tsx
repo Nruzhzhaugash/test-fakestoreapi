@@ -1,28 +1,33 @@
-"use client";
+"use client"
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+import { Button, Input, Space } from "antd";
+import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
 import { createProduct } from "@/shared/model/createProduct/createSlice";
-import { useAppSelector } from "@/shared/lib/reduxHooks";
-import { Button } from "antd";
+import { v4 as uuidv4 } from 'uuid';
 
-const ProductForm: React.FC = () => {
-  const dispatch = useDispatch();
-  const loading = useAppSelector((state) => state.create.loading);
-  const error = useAppSelector((state) => state.create.error);
+const ProductForm = () => {
+  const dispatch = useAppDispatch();
+  const loading = useAppSelector((state) => state.products.loading);
+  const error = useAppSelector((state) => state.products.error);
 
-  const handleSubmit = (values: any, { setSubmitting }: any) => {
+  const handleSubmit = async (values: any, { setSubmitting }: any) => {
     try {
-      dispatch(createProduct(values));
+      const productId = uuidv4();
+      
+      const updatedValues = { ...values, id: productId };
+
+      dispatch(createProduct(updatedValues))
       setSubmitting(false);
     } catch (error) {
-      console.error("Error creating product:", error);
+      console.error("Error:", error);
     }
   };
 
   return (
     <Formik
       initialValues={{
+        id: "",
         title: "",
         price: "",
         description: "",
@@ -30,96 +35,47 @@ const ProductForm: React.FC = () => {
         category: "",
       }}
       validationSchema={Yup.object().shape({
-        title: Yup.string().required("Title обезателен"),
-        price: Yup.number()
-          .typeError("Price должен соблюдать цифры")
-          .required("Price обезателен"),
-        description: Yup.string().required("Description обезателен"),
-        image: Yup.string().required("Image должно быть URL"),
-        category: Yup.string().required("Category обезателен"),
+        title: Yup.string().required("Title is required"),
+        price: Yup.number().required("Price is required"),
+        description: Yup.string().required("Description is required"),
+        image: Yup.string().required("Image URL is required"),
+        category: Yup.string().required("Category is required"),
       })}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting }) => (
-        <Form className="flex flex-col gap-5">
-          <div className="flex flex-col">
-            <label htmlFor="title" className="text-md mb-2.5">
-              Title
-            </label>
-            <Field
-              type="text"
-              className="border-[1px] border-black border-solid"
-              name="title"
-            />
-            <ErrorMessage
-              name="title"
-              component="div"
-              className="text-red-600"
-            />
+        <Form>
+          <div>
+            <label htmlFor="title">Title</label>
+            <Field as={Input} type="text" name="title" />
+            <ErrorMessage name="title" className="text-red-600 mt-1.5" component="div" />
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="price" className="text-md mb-2.5">
-              Price
-            </label>
-            <Field
-              type="text"
-              name="price"
-              className="border-[1px] border-black border-solid"
-            />
-            <ErrorMessage
-              name="price"
-              component="div"
-              className="text-red-600"
-            />
+          <div>
+            <label htmlFor="price">Price</label>
+            <Field as={Input} type="number" name="price" />
+            <ErrorMessage name="price" className="text-red-600 mt-1.5" component="div" />
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="description" className="text-md mb-2.5">
-              Description
-            </label>
-            <Field
-              type="text"
-              name="description"
-              className="border-[1px] border-black border-solid"
-            />
-            <ErrorMessage
-              name="description"
-              component="div"
-              className="text-red-600"
-            />
+          <div>
+            <label htmlFor="description">Description</label>
+            <Field as={Input.TextArea} name="description" />
+            <ErrorMessage name="description" className="text-red-600 mt-1.5" component="div" />
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="image" className="text-md mb-2.5">
-              Image URL
-            </label>
-            <Field
-              type="text"
-              name="image"
-              className="border-[1px] border-black border-solid"
-            />
-            <ErrorMessage
-              name="image"
-              component="div"
-              className="text-red-600"
-            />
+          <div>
+            <label htmlFor="image">Image URL</label>
+            <Field as={Input} type="text" name="image" />
+            <ErrorMessage name="image" className="text-red-600 mt-1.5" component="div" />
           </div>
-          <div className="flex flex-col">
-            <label htmlFor="category" className="text-md mb-2.5">
-              Category
-            </label>
-            <Field
-              type="text"
-              name="category"
-              className="border-[1px] border-black border-solid"
-            />
-            <ErrorMessage
-              name="category"
-              component="div"
-              className="text-red-600"
-            />
+          <div>
+            <label htmlFor="category">Category</label>
+            <Field as={Input} type="text" name="category" />
+            <ErrorMessage name="category" className="text-red-600 mt-1.5" component="div" />
           </div>
-          {loading && <p>Loading...</p>}
+          <Space>
+            <Button type="primary" htmlType="submit" loading={loading}>
+              {isSubmitting ? "Submitting" : "Submit"}
+            </Button>
+          </Space>
           {error && <p>{error}</p>}
-          <Button disabled={isSubmitting}>Submit</Button>
         </Form>
       )}
     </Formik>
@@ -127,3 +83,5 @@ const ProductForm: React.FC = () => {
 };
 
 export default ProductForm;
+
+

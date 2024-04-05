@@ -1,86 +1,66 @@
-import { Product } from "@/shared/model/products/products";
+"use client";
+import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
+import { Product, updateProduct } from "@/shared/model/products/products";
+import { useAppDispatch } from "@/shared/lib/reduxHooks";
 
 interface EditProductFormProps {
-  title: string;
-  image: string;
-  price: string | any;
-  category: string;
-  description: string;
-  loading: boolean;
-  error: string | null;
-  onSubmit: (updatedProductData: Partial<Product>) => void;
-  onDelete: () => void;
+  product: Product;
 }
 
-const EditProductForm: React.FC<EditProductFormProps> = ({
-  title,
-  image,
-  price,
-  category,
-  description,
-  loading,
-  error,
-  onSubmit,
-  onDelete,
-}) => {
-  const [form] = Form.useForm();
+const EditProductForm: React.FC<EditProductFormProps> = ({ product }) => {
+  const dispatch = useAppDispatch();
+  const [formData, setFormData] = useState(product);
 
-  const handleSubmit = (values: any) => {
-    onSubmit(values);
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const updatedProduct = await updateProducts(product.id, formData);
+      dispatch(updateProduct(updatedProduct));
+    } catch (error) {
+      console.error("Failed to update product:", error);
+    }
   };
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      // initialValues={product}
-      onFinish={handleSubmit}
-    >
-      <h1>{category}</h1>
-      <Form.Item
-        label="Title"
-        name="title"
-        rules={[{ required: true, message: "Please enter title" }]}
-      >
-        <Input value={title} />
+    <Form layout="vertical" onFinish={handleSubmit}>
+      <Form.Item label="Title">
+        <Input name="title" value={formData?.title} onChange={handleChange} />
       </Form.Item>
-      <Form.Item
-        label="Price"
-        name="price"
-        rules={[{ required: true, message: "Please enter price" }]}
-      >
-        <Input type="number" value={price} />
+      <Form.Item label="Price">
+        <Input
+          type="number"
+          name="price"
+          value={formData?.price}
+          onChange={handleChange}
+        />
       </Form.Item>
-      <Form.Item
-        label="Description"
-        name="description"
-        rules={[{ required: true, message: "Please enter description" }]}
-      >
-        <Input.TextArea value={description} />
+      <Form.Item label="Description">
+        <Input.TextArea
+          name="description"
+          value={formData?.description}
+          onChange={handleChange}
+        />
       </Form.Item>
-      <Form.Item
-        label="Image"
-        name="image"
-        rules={[{ required: true, message: "Please enter image URL" }]}
-      >
-        <Input value={image} />
+      <Form.Item label="Image">
+        <Input name="image" value={formData?.image} onChange={handleChange} />
       </Form.Item>
-      <Form.Item
-        label="Category"
-        name="category"
-        rules={[{ required: true, message: "Please enter category" }]}
-      >
-        <Input value={category} />
+      <Form.Item label="Category">
+        <Input
+          name="category"
+          value={formData?.category}
+          onChange={handleChange}
+        />
       </Form.Item>
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
       <Form.Item>
-        <Button type="primary" htmlType="submit" loading={loading}>
+        <Button type="primary" htmlType="submit">
           Save
-        </Button>
-        <Button onClick={onDelete} style={{ marginLeft: "10px" }}>
-          Delete
         </Button>
       </Form.Item>
     </Form>

@@ -15,7 +15,27 @@ export const apiSlice = createApi({
       query: (params) => buildUrl("/products", params),
       providesTags: ["Product"],
     }),
+    updateProduct: builder.mutation({
+      query: ({ id, ...data }) => ({
+        url: `/products/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["Product"],
+    }),
+    createProduct: builder.mutation({
+      query: (data) => ({
+        url: `/products`,
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["Product"],
+    }),
   }),
 });
 
-export const { useGetProductQuery, useGetProductsQuery } = apiSlice;
+export const {
+  useGetProductQuery,
+  useUpdateProductMutation,
+  useCreateProductMutation,
+} = apiSlice;

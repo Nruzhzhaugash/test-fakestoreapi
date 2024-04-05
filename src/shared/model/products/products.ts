@@ -60,11 +60,10 @@ const productSlice = createSlice({
       state.filtered = state.list.filter(({ price }) => price < payload);
     },
     updateProductData: (state, { payload }) => {
-      const index = state.list.findIndex(
-        (product) => product.id === payload.id
-      );
+      const index = state.list.findIndex(product => product.id === payload.id);
       if (index !== -1) {
         state.list[index] = payload;
+        localStorage.setItem("products", JSON.stringify(state.list));
       }
     },
   },
