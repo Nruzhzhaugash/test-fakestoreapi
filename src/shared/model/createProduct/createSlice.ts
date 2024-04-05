@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import axios from "axios";
 
 interface Product {
   id: number;
@@ -41,19 +40,10 @@ export const createProduct = createAsyncThunk(
   }
 );
 
-export const updateProduct = createAsyncThunk(
-  "products/updateProduct",
-  async (updatedProduct: Product) => {
-    const response = await axios.put(
-      `https://fakestoreapi.com/products/${updatedProduct.id}`,
-      updatedProduct
-    );
-    return response.data;
-  }
-);
 
-const createProductSlice = createSlice({
-  name: "create",
+
+const productsSlice = createSlice({
+  name: "products",
   initialState,
   reducers: {
     setProducts: (state, action: PayloadAction<Product[]>) => {
@@ -89,20 +79,29 @@ const createProductSlice = createSlice({
       state.loading = false;
       state.error = action.error.message ?? "Failed to create product";
     });
-    builder.addCase(updateProduct.fulfilled, (state, action) => {
-      state.loading = false;
-      const index = state.products.findIndex(
-        (product) => product.id === action.payload.id
-      );
-      if (index !== -1) {
-        state.products[index] = action.payload;
-        localStorage.setItem("products", JSON.stringify(state.products));
-      }
-    });
+    // builder.addCase(updateProduct.pending, (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // });
+    // builder.addCase(updateProduct.fulfilled, (state, action) => {
+    //   state.loading = false;
+    //   const index = state.products.findIndex(
+    //     (product) => product.id === action.payload.id
+    //   );
+    //   if (index !== -1) {
+    //     state.products[index] = action.payload;
+    //     localStorage.setItem("products", JSON.stringify(state.products));
+    //   }
+    // });
+    // builder.addCase(updateProduct.rejected, (state, action) => {
+    //   state.loading = false;
+    //   state.error = action.error.message ?? "Failed to update product";
+    // });
   },
 });
 
 export const { setProducts, setLoading, setError, updateProductData } =
-  createProductSlice.actions;
+  productsSlice.actions;
 
-export default createProductSlice.reducer;
+export default productsSlice.reducer;
+

@@ -8,7 +8,7 @@ const ProductList = ({ amount, products }: ProductProps) => {
   return (
     <>
       {list.map(({ id, image, title, price, category }) => (
-        <Link href={`/products/${id}`} key={id}>
+        <Link className="border-[1px] border-black border-solid rounded-[5px]" href={`/products/${id}`} key={id}>
           <ProductCard
             image={image}
             title={title}

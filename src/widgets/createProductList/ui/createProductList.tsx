@@ -11,7 +11,7 @@ const CreatedProductsList = ({ amount }: CreateProductListProps) => {
   return (
     <>
       {list.map((product) => (
-        <Link href={`/products/${product.id}`} key={product.id}>
+        <Link className="border-[1px] border-black border-solid rounded-[5px]" href={`/products/${product.id}`} key={product.id}>
           <ProductCard
             image={product.image}
             title={product.title}

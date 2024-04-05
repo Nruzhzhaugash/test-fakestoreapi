@@ -12,7 +12,18 @@ const ProductEditPage: React.FC = () => {
   return (
     <div>
       <h2>Edit Product</h2>
-      <EditProductForm product={list} />
+      <EditProductForm
+        product={{
+          id: 21,
+          title: "",
+          price: 0,
+          category: "",
+          description: "",
+          image: "",
+        }}
+        onSave={() => { } } onDelete={function (): void {
+          throw new Error("Function not implemented.");
+        } }      />
     </div>
   );
 };

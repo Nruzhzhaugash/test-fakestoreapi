@@ -1,7 +1,12 @@
 const ProductCard = ({ image, price, title, category }: ProductCardI) => {
   return (
     <>
-      <div className="image" style={{ backgroundImage: `url(${image})` }} />
+      <div className="p-5 border-b-[2px] border-black border-solid ">
+        <div
+          className="image"
+          style={{ backgroundImage: `url(${image})` }}
+        />
+      </div>
       <div className="wrapper">
         <h3 className="text-[15px]">{title}</h3>
         <div className="text-[12px] mt-[5px] mb-7">{category}</div>

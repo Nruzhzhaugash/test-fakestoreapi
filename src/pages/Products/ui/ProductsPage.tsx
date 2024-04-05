@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
 import { getProducts } from "@/shared/model/products/products";
 import { ProductList } from "@/widgets/ProductList";
-import { Button, Flex, Tabs } from "antd";
+import { Button, Flex, Switch, Tabs } from "antd";
 import type { ConfigProviderProps } from "antd";
 import Loader from "@/shared/ui/Loader/Loader";
 import { CreateProductList } from "@/widgets/createProductList";
@@ -23,6 +23,7 @@ const ProductsPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [displayedProducts, setDisplayedProducts] = useState<number>(8);
   const [activeTab, setActiveTab] = useState<string>("apiProducts");
+  const [showPublishedOnly, setShowPublishedOnly] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +35,17 @@ const ProductsPage = () => {
 
     return () => clearTimeout(timeout);
   }, [dispatch, displayedProducts]);
+
+  useEffect(() => {
+    const savedShowPublishedOnly = localStorage.getItem("showPublishedOnly");
+    if (savedShowPublishedOnly) {
+      setShowPublishedOnly(savedShowPublishedOnly === "true");
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("showPublishedOnly", String(showPublishedOnly));
+  }, [showPublishedOnly]);
 
   useEffect(() => {
     const hash = window.location.hash.substr(1);
@@ -87,11 +99,16 @@ const ProductsPage = () => {
               <h1 className="text-xl mb-10 whitespace-nowrap">
                 Products Table
               </h1>
-              {activeTab === "tableProducts" && (
-                <ProductsTable />
-              )}
+              {activeTab === "tableProducts" && <ProductsTable />}
             </TabPane>
           </Tabs>
+          <div>
+            Show published only :
+            <Switch
+              checked={showPublishedOnly}
+              onChange={(checked) => setShowPublishedOnly(checked)}
+            />
+          </div>
           <Flex gap="15px" wrap="wrap" className="items-center justify-center">
             <Button
               value={size}

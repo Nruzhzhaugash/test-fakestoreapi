@@ -5,7 +5,7 @@ const Product = (item: ProductProps) => {
 
   return (
     <div className="flex gap-20">
-      <div className="border-[2px] border-solid border-black p-10 w-full">
+      <div className="border-[1px] border-solid border-black p-10 w-full">
         <div
           className="image-solo"
           style={{ backgroundImage: `url(${image})` }}

@@ -1,16 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import productSlice from "@/shared/model/products/products";
 import createProductSlice from "@/shared/model/createProduct/createSlice";
-import deleteSlice from "@/shared/model/deleteProduct/deleteProduct";
+import deleteProductReducer from "@/shared/model/products/products";
 import { apiSlice } from "@/shared/api/apiSlice";
-import updateProductSlice from "@/shared/model/products/updateSice";
+import updateProductReducer from "@/shared/model/products/products";
 
 const store = configureStore({
   reducer: {
     products: productSlice,
     create: createProductSlice,
-    delete: deleteSlice,
-    update: updateProductSlice,
+    delete: deleteProductReducer,
+    updateProduct: updateProductReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

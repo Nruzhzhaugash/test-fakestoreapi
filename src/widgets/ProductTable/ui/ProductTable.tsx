@@ -1,13 +1,66 @@
 "use client";
-import { Table } from "antd";
-import { useAppSelector } from "@/shared/lib/reduxHooks";
+import React, { useCallback, useEffect, useState } from "react";
+import { Table, Button, Modal, message } from "antd";
+import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
+import {
+  Product,
+  deleteProduct,
+  updateProduct,
+} from "@/shared/model/products/products";
+import { EditProductForm } from "@/features/updateProduct";
 import Image from "next/image";
 
-const ProductsTable = () => {
-  const {
-    products: { list },
-  } = useAppSelector((state) => state);
-  const createdProducts = useAppSelector((state) => state.create.products);
+const ProductsTable: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const products = useAppSelector((state) => state.products.list);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [deleteConfirmationVisible, setDeleteConfirmationVisible] =
+    useState(false);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+
+  // Функция для удаления продукта
+  const deleteProductHandler = useCallback(
+    (productId: number | string) => {
+      dispatch(deleteProduct(productId))
+        .unwrap()
+        .then(() => {
+          message.success("Product deleted successfully");
+        })
+        .catch((error) => {
+          console.error("Error deleting product:", error);
+          message.error("Failed to delete product");
+        });
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    if (deleteConfirmationVisible && !isDeleting) {
+      setIsDeleting(true);
+      deleteProductHandler(editingProduct?.id || "");
+      setTimeout(() => {
+        setDeleteConfirmationVisible(false);
+        setIsDeleting(false);
+      }, 1000);
+    }
+  }, [
+    deleteConfirmationVisible,
+    deleteProductHandler,
+    editingProduct,
+    isDeleting,
+  ]);
+
+  const editProduct = (editedProduct: Product) => {
+    setEditingProduct(null);
+    dispatch(updateProduct(editedProduct));
+    setIsModalVisible(false);
+  };
+
+  const handleEdit = (product: Product) => {
+    setEditingProduct(product);
+    setIsModalVisible(true);
+  };
 
   const columns = [
     {
@@ -37,9 +90,9 @@ const ProductsTable = () => {
       render: (text: string) => (
         <Image
           src={text}
-          alt="Product"
           width={50}
           height={50}
+          alt="Product"
           style={{ width: 50, height: 50 }}
         />
       ),
@@ -49,15 +102,69 @@ const ProductsTable = () => {
       dataIndex: "category",
       key: "category",
     },
+    {
+      title: "Action",
+      key: "action",
+      render: (_: any, record: Product) => (
+        <div className="flex flex-col gap-5">
+          <Button
+            type="primary"
+            onClick={() => handleEdit(record)}
+            style={{ marginRight: 8 }}
+          >
+            Edit
+          </Button>
+          <Button
+            className="bg-red-600 text-white"
+            onClick={() => {
+              setEditingProduct(record);
+              setDeleteConfirmationVisible(true);
+            }}
+          >
+            Delete
+          </Button>
+        </div>
+      ),
+    },
   ];
 
   return (
     <div className="text-xl mb-8">
       <h2>Existing Products</h2>
-      <Table dataSource={list} columns={columns} />
+      <Table dataSource={products} columns={columns} />
 
-      <h2 className="text-xl mb-8 mt-10">Created Products</h2>
-      <Table dataSource={createdProducts} columns={columns} />
+      <Modal
+        title="Edit Product"
+        visible={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+      >
+        <EditProductForm
+          product={editingProduct}
+          onSave={editProduct}
+          onDelete={() => {
+            if (editingProduct) {
+              setEditingProduct(editingProduct);
+              setDeleteConfirmationVisible(true);
+            }
+          }}
+        />
+      </Modal>
+
+      <Modal
+        title="Confirm Deletion"
+        onOk={() => {
+          if (editingProduct) {
+            deleteProductHandler(editingProduct.id);
+            setDeleteConfirmationVisible(false);
+          }
+        }}
+        onCancel={() => setDeleteConfirmationVisible(false)}
+        okText="Delete"
+        cancelText="Cancel"
+      >
+        <p>Are you sure you want to delete this product?</p>
+      </Modal>
     </div>
   );
 };
