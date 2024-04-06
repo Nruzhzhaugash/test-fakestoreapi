@@ -1,7 +1,7 @@
 "use client";
-import * as Formik from 'formik'
+import * as Formik from "formik";
 import * as Yup from "yup";
-import * as Antd from 'antd' 
+import * as Antd from "antd";
 import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
 import { createProduct } from "@/shared/model/createProduct/createSlice";
 
@@ -12,9 +12,7 @@ export default function ProductForm() {
 
   const handleSubmit = async (values: any, { setSubmitting }: any) => {
     try {
-
       const updatedValues = { ...values, id: Date.now() };
-      // @ts-ignore
       dispatch(createProduct(updatedValues));
       setSubmitting(false);
     } catch (error) {
@@ -97,5 +95,4 @@ export default function ProductForm() {
       )}
     </Formik.Formik>
   );
-};
-
+}

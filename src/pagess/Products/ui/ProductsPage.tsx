@@ -7,8 +7,7 @@ import Loader from "@/shared/ui/Loader/Loader";
 import { useRouter } from "next/navigation";
 import ProductList from "@/widgets/ProductList/ui/ProductList";
 import CreatedProductsList from "@/widgets/createProductList/ui/createProductList";
-import ProductsTable from "@/widgets/ProductTable/ui/ProductTable";
-import { createProduct } from "@/shared/model/createProduct/createSlice";
+import ListEditProductPage from "@/pagess/ListEditProduct/ui/listEditProductPage";
 
 const { TabPane } = Tabs;
 type SizeType = ConfigProviderProps["componentSize"];
@@ -63,12 +62,6 @@ export default function ProductsPage() {
     );
   };
 
-  // useEffect(() => {
-  //   if (products.length > 20) {
-  //     dispatch(createProduct());
-  //   }
-  // }, [products, dispatch]);
-
   useEffect(() => {
     const hash = window.location.hash.substr(1);
     setActiveTab(hash || "apiProducts");
@@ -122,10 +115,7 @@ export default function ProductsPage() {
                     style={{ marginBottom: "1rem" }}
                   />
                   <div className="grid mb-[30px] grid-cols-4 gap-10">
-                    <ProductList
-                      amount={displayedProducts}
-                      products={filteredProducts}
-                    />
+                    <ProductList amount={displayedProducts} products={list} />
                   </div>
                 </>
               )}
@@ -135,18 +125,14 @@ export default function ProductsPage() {
                 Created Products
               </h2>
               <div className="grid grid-cols-4 gap-10">
-                {activeTab === "createdProducts" && (
-                  <CreatedProductsList
-                    amount={displayedProducts}
-                  />
-                )}
+                {activeTab === "createdProducts" && <CreatedProductsList amount={displayedProducts} />}
               </div>
             </TabPane>
             <TabPane tab="Products Table" key="tableProducts">
               <h1 className="text-xl mb-10 whitespace-nowrap">
                 Products Table
               </h1>
-              {activeTab === "tableProducts" && <ProductsTable />}
+              {activeTab === "tableProducts" && <ListEditProductPage />}
             </TabPane>
           </Tabs>
           <div>

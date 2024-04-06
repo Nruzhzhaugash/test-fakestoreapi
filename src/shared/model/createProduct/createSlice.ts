@@ -1,7 +1,16 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 
 interface Product {
   id: number;
+  title: string;
+  price: number;
+  description: string;
+  image: string;
+  category: string;
+}
+
+interface ProductFormValues {
   title: string;
   price: number;
   description: string;
@@ -26,25 +35,17 @@ const initialState: ProductsState = {
 
 export const createProduct = createAsyncThunk(
   "products/createProduct",
-  async (productData, { rejectWithValue }) => {
-    try {
-      const response = await fetch("https://fakestoreapi.com/products", {
-        method: "POST",
-        body: JSON.stringify(productData),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
+  async (newProduct: ProductFormValues) => {
+    const response = await axios.post(
+      "https://fakestoreapi.com/products",
+      newProduct
+    );
+    return response.data;
   }
 );
 
-const productsSlice = createSlice({
-  name: "products",
+const createProductSlice = createSlice({
+  name: "create",
   initialState,
   reducers: {
     setProducts: (state, action: PayloadAction<Product[]>) => {
@@ -84,6 +85,6 @@ const productsSlice = createSlice({
 });
 
 export const { setProducts, setLoading, setError, updateProductData } =
-  productsSlice.actions;
+  createProductSlice.actions;
 
-export default productsSlice.reducer;
+export default createProductSlice.reducer;

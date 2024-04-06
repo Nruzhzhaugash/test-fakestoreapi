@@ -10,7 +10,7 @@ const saveProductsToLocalStorage = (products: Product[]) => {
 
 const loadProductsFromLocalStorage = (): Product[] => {
   if (typeof window !== "undefined") {
-    const savedProducts = localStorage.getItem("products"); 
+    const savedProducts = localStorage.getItem("products");
     return savedProducts ? JSON.parse(savedProducts) : [];
   }
   return [];
@@ -21,19 +21,6 @@ export const getProducts = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const res = await axios.get(`${BASE_URL}/products`);
-      return res.data;
-    } catch (err) {
-      console.log(err);
-      thunkApi.rejectWithValue(err);
-    }
-  }
-);
-
-export const createProduct = createAsyncThunk(
-  "products/createProduct",
-  async (productData: Product, thunkApi) => {
-    try { 
-      const res = await axios.post(`${BASE_URL}/products`, productData);
       return res.data;
     } catch (err) {
       console.log(err);
@@ -133,13 +120,6 @@ const productSlice = createSlice({
     builder.addCase(getProducts.rejected, (state) => {
       state.loading = false;
       state.error = "Failed to fetch products";
-    });
-    builder.addCase(createProduct.fulfilled, (state, { payload }) => {
-      state.list.push(payload);
-      saveProductsToLocalStorage(state.list);
-    });
-    builder.addCase(createProduct.rejected, (state, { payload }) => {
-      state.error = payload ? String(payload) : "Failed to create product";
     });
     builder.addCase(updateProduct.fulfilled, (state, action) => {
       const payload = action.payload;

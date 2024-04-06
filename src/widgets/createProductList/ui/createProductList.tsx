@@ -1,27 +1,18 @@
-"use client";
-import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
+import { useAppSelector } from "@/shared/lib/reduxHooks";
 import Link from "next/link";
-import React, { useEffect } from "react";
-import CreateProductListProps from "./props";
+import React from "react";
 import ProductCard from "@/entities/ProductCard/ui/ProductCard";
-import { createProduct } from "@/shared/model/createProduct/createSlice";
+import CreateProductListProps from "./props";
 
-export default function CreatedProductsList({
-  amount,
-  products,
-}: CreateProductListProps) {
+const CreatedProductsList = ({ amount }: CreateProductListProps) => {
   const createdProducts = useAppSelector((state) => state.create.products);
 
-  const list = createdProducts.filter((_, i) => i < amount);
+  const list = createdProducts.filter((_, i) => i.id < 20);
 
   return (
     <>
       {list.map((product) => (
-        <Link
-          className="border-[1px] border-black border-solid rounded-[5px]"
-          href={`/products/${product.id}`}
-          key={product.id}
-        >
+        <Link className="border-[1px] border-black border-solid rounded-[5px]" href={`/products/${product.id}`} key={product.id}>
           <ProductCard
             image={product.image}
             title={product.title}
@@ -32,4 +23,6 @@ export default function CreatedProductsList({
       ))}
     </>
   );
-}
+};
+
+export default CreatedProductsList;
