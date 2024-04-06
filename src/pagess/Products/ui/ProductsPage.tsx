@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
-import { getProducts } from "@/shared/model/products/products";
-import { Tabs, Switch, Button, ConfigProviderProps, Flex } from "antd";
+import { Product, getProducts } from "@/shared/model/products/products";
+import { Tabs, Switch, Button, ConfigProviderProps, Flex, Input } from "antd";
 import Loader from "@/shared/ui/Loader/Loader";
 import { useRouter } from "next/navigation";
 import ProductList from "@/widgets/ProductList/ui/ProductList";
@@ -23,6 +23,7 @@ export default function ProductsPage() {
   const [displayedProducts, setDisplayedProducts] = useState<number>(8);
   const [activeTab, setActiveTab] = useState<string>("apiProducts");
   const [showPublishedOnly, setShowPublishedOnly] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,6 +52,12 @@ export default function ProductsPage() {
   //   }
   // }, [showPublishedOnly]);
 
+  const filterProducts = (products: Product[], term: string) => {
+    return products.filter((product) =>
+      product.title.toLowerCase().includes(term.toLowerCase())
+    );
+  };
+
   useEffect(() => {
     const hash = window.location.hash.substr(1);
     setActiveTab(hash || "apiProducts");
@@ -64,6 +71,17 @@ export default function ProductsPage() {
     setActiveTab(tab);
     router.push(`/products#${tab}`);
   };
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredProducts =
+    activeTab === "apiProducts"
+      ? filterProducts(list, searchTerm)
+      : list.filter((product) =>
+          product.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
 
   return (
     <section className="">
@@ -83,8 +101,17 @@ export default function ProductsPage() {
                   <h2 className="text-xl mb-10 whitespace-nowrap">
                     API Products
                   </h2>
+                  <Input
+                    placeholder="Search..."
+                    value={searchTerm}
+                    onChange={handleSearch}
+                    style={{ marginBottom: "1rem" }}
+                  />
                   <div className="grid mb-[30px] grid-cols-4 gap-10">
-                    <ProductList amount={displayedProducts} products={list} />
+                    <ProductList
+                      amount={displayedProducts}
+                      products={filteredProducts}
+                    />
                   </div>
                 </>
               )}
@@ -93,6 +120,12 @@ export default function ProductsPage() {
               <h2 className="text-xl mb-10 whitespace-nowrap">
                 Created Products
               </h2>
+              <Input
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={handleSearch}
+                style={{ marginBottom: "1rem" }}
+              />
               <div className="grid grid-cols-4 gap-10">
                 {activeTab === "createdProducts" && (
                   <CreatedProductsList amount={displayedProducts} />
