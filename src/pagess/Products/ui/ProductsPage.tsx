@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import ProductList from "@/widgets/ProductList/ui/ProductList";
 import CreatedProductsList from "@/widgets/createProductList/ui/createProductList";
 import ProductsTable from "@/widgets/ProductTable/ui/ProductTable";
+import { createProduct } from "@/shared/model/createProduct/createSlice";
 
 const { TabPane } = Tabs;
 type SizeType = ConfigProviderProps["componentSize"];
@@ -18,6 +19,9 @@ export default function ProductsPage() {
   const {
     products: { list },
   } = useAppSelector((state) => state);
+  // const {
+  //   create: { products },
+  // } = useAppSelector((state) => state);
   const [size] = useState<SizeType>("large");
   const [loading, setLoading] = useState<boolean>(true);
   const [displayedProducts, setDisplayedProducts] = useState<number>(8);
@@ -34,29 +38,36 @@ export default function ProductsPage() {
     const timeout = setTimeout(fetchData, 1000);
 
     return () => clearTimeout(timeout);
-  }, [dispatch, displayedProducts]);
+  }, [dispatch]);
 
-  // useEffect(() => {
-  //   const savedShowPublishedOnly =
-  //     typeof window !== "undefined"
-  //       ? localStorage.getItem("showPublishedOnly")
-  //       : null;
-  //   if (savedShowPublishedOnly) {
-  //     setShowPublishedOnly(savedShowPublishedOnly === "true");
-  //   }
-  // }, []);
+  useEffect(() => {
+    const savedShowPublishedOnly =
+      typeof window !== "undefined"
+        ? localStorage.getItem("showPublishedOnly")
+        : null;
+    if (savedShowPublishedOnly) {
+      setShowPublishedOnly(savedShowPublishedOnly === "true");
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   if (typeof window !== "undefined") {
-  //     localStorage.setItem("showPublishedOnly", String(showPublishedOnly));
-  //   }
-  // }, [showPublishedOnly]);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("showPublishedOnly", String(showPublishedOnly));
+    }
+  }, [showPublishedOnly]);
 
   const filterProducts = (products: Product[], term: string) => {
-    return products.filter((product) =>
-      product.title.toLowerCase().includes(term.toLowerCase())
+    return products.filter(
+      (product) =>
+        product && product.title?.toLowerCase().includes(term.toLowerCase())
     );
   };
+
+  // useEffect(() => {
+  //   if (products.length > 20) {
+  //     dispatch(createProduct());
+  //   }
+  // }, [products, dispatch]);
 
   useEffect(() => {
     const hash = window.location.hash.substr(1);
@@ -79,8 +90,11 @@ export default function ProductsPage() {
   const filteredProducts =
     activeTab === "apiProducts"
       ? filterProducts(list, searchTerm)
-      : list.filter((product) =>
-          product.title.toLowerCase().includes(searchTerm.toLowerCase())
+      : list.filter(
+          (product) =>
+            product &&
+            product.title &&
+            product.title.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
   return (
@@ -120,15 +134,11 @@ export default function ProductsPage() {
               <h2 className="text-xl mb-10 whitespace-nowrap">
                 Created Products
               </h2>
-              <Input
-                placeholder="Search..."
-                value={searchTerm}
-                onChange={handleSearch}
-                style={{ marginBottom: "1rem" }}
-              />
               <div className="grid grid-cols-4 gap-10">
                 {activeTab === "createdProducts" && (
-                  <CreatedProductsList amount={displayedProducts} />
+                  <CreatedProductsList
+                    amount={displayedProducts}
+                  />
                 )}
               </div>
             </TabPane>
@@ -164,7 +174,7 @@ export default function ProductsPage() {
             <Button
               value={size}
               type="primary"
-              onClick={() => setDisplayedProducts(20)}
+              onClick={() => setDisplayedProducts(23)}
             >
               20 products
             </Button>

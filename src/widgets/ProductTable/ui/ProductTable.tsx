@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useCallback, useEffect, useState } from "react";
 import * as Antd from 'antd'
 import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";

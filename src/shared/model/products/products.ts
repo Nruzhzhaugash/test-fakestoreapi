@@ -10,7 +10,7 @@ const saveProductsToLocalStorage = (products: Product[]) => {
 
 const loadProductsFromLocalStorage = (): Product[] => {
   if (typeof window !== "undefined") {
-    const savedProducts = localStorage.getItem("products");
+    const savedProducts = localStorage.getItem("products"); 
     return savedProducts ? JSON.parse(savedProducts) : [];
   }
   return [];
@@ -32,7 +32,7 @@ export const getProducts = createAsyncThunk(
 export const createProduct = createAsyncThunk(
   "products/createProduct",
   async (productData: Product, thunkApi) => {
-    try {
+    try { 
       const res = await axios.post(`${BASE_URL}/products`, productData);
       return res.data;
     } catch (err) {
@@ -81,6 +81,7 @@ export type Product = {
 interface ProductState {
   list: Product[];
   filtered: Product[];
+  created: Product[];
   loading: boolean;
   error: string | null;
 }
@@ -88,6 +89,7 @@ interface ProductState {
 const initialState: ProductState = {
   list: loadProductsFromLocalStorage(),
   filtered: [],
+  created: [],
   loading: false,
   error: null,
 };
@@ -111,6 +113,12 @@ const productSlice = createSlice({
       state.filtered = state.filtered.filter(
         (product) => product.id !== productId
       );
+    },
+    addCreatedProduct: (state, action: PayloadAction<Product>) => {
+      const product = action.payload;
+      if (typeof product.id === "number" && product.id > 20) {
+        state.created.push(product);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -159,6 +167,6 @@ const productSlice = createSlice({
   },
 });
 
-export const { updateProductData } = productSlice.actions;
+export const { updateProductData, addCreatedProduct } = productSlice.actions;
 
 export default productSlice.reducer;

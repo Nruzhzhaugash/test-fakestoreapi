@@ -16,7 +16,10 @@ interface ProductsState {
 }
 
 const initialState: ProductsState = {
-  products: typeof window !== 'undefined' ? JSON.parse(localStorage.getItem("products") || "[]") : [],
+  products:
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("products") || "[]")
+      : [],
   loading: false,
   error: null,
 };
@@ -25,12 +28,12 @@ export const createProduct = createAsyncThunk(
   "products/createProduct",
   async (productData, { rejectWithValue }) => {
     try {
-      const response = await fetch('https://fakestoreapi.com/products', {
+      const response = await fetch("https://fakestoreapi.com/products", {
         method: "POST",
         body: JSON.stringify(productData),
         headers: {
-          'Content-Type': 'application/json'
-        }
+          "Content-Type": "application/json",
+        },
       });
       const data = await response.json();
       return data;
@@ -39,8 +42,6 @@ export const createProduct = createAsyncThunk(
     }
   }
 );
-
-
 
 const productsSlice = createSlice({
   name: "products",
@@ -79,24 +80,6 @@ const productsSlice = createSlice({
       state.loading = false;
       state.error = action.error.message ?? "Failed to create product";
     });
-    // builder.addCase(updateProduct.pending, (state) => {
-    //   state.loading = true;
-    //   state.error = null;
-    // });
-    // builder.addCase(updateProduct.fulfilled, (state, action) => {
-    //   state.loading = false;
-    //   const index = state.products.findIndex(
-    //     (product) => product.id === action.payload.id
-    //   );
-    //   if (index !== -1) {
-    //     state.products[index] = action.payload;
-    //     localStorage.setItem("products", JSON.stringify(state.products));
-    //   }
-    // });
-    // builder.addCase(updateProduct.rejected, (state, action) => {
-    //   state.loading = false;
-    //   state.error = action.error.message ?? "Failed to update product";
-    // });
   },
 });
 
@@ -104,4 +87,3 @@ export const { setProducts, setLoading, setError, updateProductData } =
   productsSlice.actions;
 
 export default productsSlice.reducer;
-
