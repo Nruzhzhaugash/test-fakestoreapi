@@ -31,7 +31,7 @@ const initialState: ProductsState = {
   error: null,
   deleteProduct: null,
 };
-// 
+
 const loadProductsFromLocalStorage = () => {
   const storedProducts = localStorage.getItem("products");
   return storedProducts ? JSON.parse(storedProducts) : [];

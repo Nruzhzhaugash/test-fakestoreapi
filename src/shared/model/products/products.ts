@@ -15,7 +15,7 @@ const loadProductsFromLocalStorage = (): Product[] => {
   }
   return [];
 };
-
+// 
 export const getProducts = createAsyncThunk(
   "products/getProducts",
   async (_, thunkApi) => {
