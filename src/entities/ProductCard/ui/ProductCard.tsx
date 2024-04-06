@@ -1,3 +1,5 @@
+import ProductCardI from "./props";
+
 export default function ProductCard({ image, price, title, category }: ProductCardI) {
   return (
     <>

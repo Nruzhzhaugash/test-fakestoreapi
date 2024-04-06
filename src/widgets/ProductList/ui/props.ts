@@ -6,7 +6,7 @@ type Product = {
   image: any;
 };
 
-interface ProductProps {
+export default interface ProductProps {
   amount: number;
   products: Product[];
 }

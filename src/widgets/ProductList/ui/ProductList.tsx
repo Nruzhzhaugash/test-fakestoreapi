@@ -1,5 +1,6 @@
 "use client";
 import ProductCard from "@/entities/ProductCard/ui/ProductCard";
+import ProductProps from "./props";
 import Link from "next/link";
 
 export default function ProductList({ amount, products }: ProductProps) {

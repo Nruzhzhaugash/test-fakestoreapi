@@ -1,4 +1,4 @@
-import { BASE_URL } from "@/shared/api/_BASE";
+import { BASE_URL } from "@/shared/api/BASE";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 

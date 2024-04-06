@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { BASE_URL } from "./_BASE";
+import { BASE_URL } from "./BASE";
 import { buildUrl } from "./apiSet";
 
 export const apiSlice = createApi({

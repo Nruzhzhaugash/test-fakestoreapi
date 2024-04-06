@@ -1,3 +1,3 @@
-export interface CreateProductListProps {
+export default interface CreateProductListProps {
   amount: number,
 }

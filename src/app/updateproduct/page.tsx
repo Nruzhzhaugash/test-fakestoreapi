@@ -1,4 +1,4 @@
-import ListEditProductPage from "@/pages/ListEditProduct/ui/listEditProductPage";
+import ListEditProductPage from "@/pagess/ListEditProduct/ui/listEditProductPage";
 import Layout from "@/widgets/Layout/Layout";
 
 export default function UpdateProduct() {

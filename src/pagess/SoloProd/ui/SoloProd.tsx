@@ -36,5 +36,4 @@ export default function SoloProductPage() {
       </div>
     </section>
   );
-};
-
+}

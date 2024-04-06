@@ -25,4 +25,3 @@ export default function Product(item: ProductProps) {
     </div>
   );
 };
-

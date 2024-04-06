@@ -1,4 +1,4 @@
-import CreateProductPage from "@/pages/CreateProductPage/ui/CreateProductPage";
+import CreateProductPage from "@/pagess/CreateProductPage/ui/CreateProductPage";
 import Layout from "@/widgets/Layout/Layout";
 
 export default function CreateProduct() {

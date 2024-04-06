@@ -1,4 +1,4 @@
-interface ProductCardI {
+export default interface ProductCardI {
   image: string;
   price: any;
   title: string;

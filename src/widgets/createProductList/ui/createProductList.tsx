@@ -2,7 +2,7 @@
 import { useAppSelector } from "@/shared/lib/reduxHooks";
 import Link from "next/link";
 import React from "react";
-import { CreateProductListProps } from "./props";
+import CreateProductListProps from "./props";
 import ProductCard from "@/entities/ProductCard/ui/ProductCard";
 
 export default function CreatedProductsList({ amount }: CreateProductListProps) {

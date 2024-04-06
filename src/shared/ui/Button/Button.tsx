@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { IButton } from "./props";
+import IButton from "./props";
 
 export default function Buttob({ className, children, ...rest }: IButton) {
   return (

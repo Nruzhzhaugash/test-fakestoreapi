@@ -1,4 +1,4 @@
-import SoloProductPage from "@/pages/SoloProd/ui/SoloProd";
+import SoloProductPage from "@/pagess/SoloProd/ui/SoloProd";
 import Layout from "@/widgets/Layout/Layout";
 
 export default function SoloProd() {
@@ -8,5 +8,5 @@ export default function SoloProd() {
         <SoloProductPage />
       </main>
     </Layout>
-  )
+  );
 }
