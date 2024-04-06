@@ -7,7 +7,7 @@ import CreateProductListProps from "./props";
 const CreatedProductsList = ({ amount }: CreateProductListProps) => {
   const createdProducts = useAppSelector((state) => state.create.products);
 
-  const list = createdProducts.filter((_, i) => i.id < 20);
+  const list = createdProducts.slice(20, 40);
 
   return (
     <>
