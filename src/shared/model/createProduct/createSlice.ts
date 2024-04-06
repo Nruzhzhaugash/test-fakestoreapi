@@ -22,16 +22,22 @@ interface ProductsState {
   products: Product[];
   loading: boolean;
   error: string | null;
+  deleteProduct: any;
 }
 
 const initialState: ProductsState = {
-  products:
-    typeof window !== "undefined"
-      ? JSON.parse(localStorage.getItem("products") || "[]")
-      : [],
+  products: [],
   loading: false,
   error: null,
+  deleteProduct: null,
 };
+
+const loadProductsFromLocalStorage = () => {
+  const storedProducts = localStorage.getItem("products");
+  return storedProducts ? JSON.parse(storedProducts) : [];
+};
+
+initialState.products = loadProductsFromLocalStorage();
 
 export const createProduct = createAsyncThunk(
   "products/createProduct",
@@ -40,6 +46,11 @@ export const createProduct = createAsyncThunk(
       "https://fakestoreapi.com/products",
       newProduct
     );
+    localStorage.setItem(
+      `product: ${response.data}`,
+      JSON.stringify(response.data)
+    );
+    console.log(response.data);
     return response.data;
   }
 );
@@ -48,15 +59,18 @@ const createProductSlice = createSlice({
   name: "create",
   initialState,
   reducers: {
-    setProducts: (state, action: PayloadAction<Product[]>) => {
-      state.products = action.payload;
-      localStorage.setItem("products", JSON.stringify(action.payload));
-    },
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;
     },
     setError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
+    },
+    deleteProduct(state, action: PayloadAction<number>) {
+      const productId = action.payload;
+      state.products = state.products.filter(
+        (product) => product.id !== productId
+      );
+      state.deleteProduct = productId;
     },
     updateProductData: (state, action: PayloadAction<Product>) => {
       const index = state.products.findIndex(
@@ -84,7 +98,7 @@ const createProductSlice = createSlice({
   },
 });
 
-export const { setProducts, setLoading, setError, updateProductData } =
+export const { setLoading, setError, updateProductData, deleteProduct } =
   createProductSlice.actions;
 
 export default createProductSlice.reducer;

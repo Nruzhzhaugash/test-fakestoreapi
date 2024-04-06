@@ -10,7 +10,6 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
 
 const ListEditProductPage = () => {

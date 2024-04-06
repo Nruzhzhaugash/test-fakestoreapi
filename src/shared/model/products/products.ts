@@ -48,11 +48,28 @@ export const deleteProduct = createAsyncThunk(
   async (productId: number | string, thunkApi) => {
     try {
       await axios.delete(`${BASE_URL}/products/${productId}`);
-      return productId;
+      localStorage.removeItem(`product:${productId}`); 
+      return productId; 
     } catch (err) {
       console.log(err);
       thunkApi.rejectWithValue(err);
     }
+  }
+);
+
+export const createProduct = createAsyncThunk(
+  "products/createProduct",
+  async (newProduct: Product) => {
+    const response = await axios.post(
+      "https://fakestoreapi.com/products",
+      newProduct
+    );
+    localStorage.setItem(
+      `product: ${response.data}`,
+      JSON.stringify(response.data)
+    );
+    console.log(response.data);
+    return response.data;
   }
 );
 
@@ -141,8 +158,10 @@ const productSlice = createSlice({
       );
       saveProductsToLocalStorage(state.list);
     });
-    builder.addCase(updateProduct.rejected, (state, { payload }) => {
-      state.error = payload ? String(payload) : "Failed to update product";
+    builder.addCase(createProduct.fulfilled, (state, action) => {
+      state.loading = false;
+      state.list.push(action.payload);
+      localStorage.setItem("products", JSON.stringify(state.list));
     });
   },
 });
