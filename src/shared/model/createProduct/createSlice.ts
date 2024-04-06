@@ -11,6 +11,7 @@ interface Product {
 }
 
 interface ProductFormValues {
+  id: number;
   title: string;
   price: number;
   description: string;
@@ -33,8 +34,11 @@ const initialState: ProductsState = {
 };
 
 const loadProductsFromLocalStorage = () => {
-  const storedProducts = localStorage.getItem("products");
-  return storedProducts ? JSON.parse(storedProducts) : [];
+  if (typeof window !== "undefined") {
+    const storedProducts = localStorage.getItem("products");
+    return storedProducts ? JSON.parse(storedProducts) : [];
+  }
+  return [];
 };
 
 initialState.products = loadProductsFromLocalStorage();
@@ -46,10 +50,12 @@ export const createProduct = createAsyncThunk(
       "https://fakestoreapi.com/products",
       newProduct
     );
-    localStorage.setItem(
-      `product: ${response.data}`,
-      JSON.stringify(response.data)
-    );
+    if (typeof window !== "undefined") {
+      localStorage.setItem(
+        `product: ${response.data.id}`,
+        JSON.stringify(response.data)
+      );
+    }
     console.log(response.data);
     return response.data;
   }
@@ -89,7 +95,9 @@ const createProductSlice = createSlice({
     builder.addCase(createProduct.fulfilled, (state, action) => {
       state.loading = false;
       state.products.push(action.payload);
-      localStorage.setItem("products", JSON.stringify(state.products));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("products", JSON.stringify(state.products));
+      }
     });
     builder.addCase(createProduct.rejected, (state, action) => {
       state.loading = false;

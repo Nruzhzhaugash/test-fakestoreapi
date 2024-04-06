@@ -15,7 +15,7 @@ const loadProductsFromLocalStorage = (): Product[] => {
   }
   return [];
 };
-// 
+//
 export const getProducts = createAsyncThunk(
   "products/getProducts",
   async (_, thunkApi) => {
@@ -48,8 +48,7 @@ export const deleteProduct = createAsyncThunk(
   async (productId: number | string, thunkApi) => {
     try {
       await axios.delete(`${BASE_URL}/products/${productId}`);
-      localStorage.removeItem(`product:${productId}`); 
-      return productId; 
+      return productId;
     } catch (err) {
       console.log(err);
       thunkApi.rejectWithValue(err);
@@ -59,15 +58,8 @@ export const deleteProduct = createAsyncThunk(
 
 export const createProduct = createAsyncThunk(
   "products/createProduct",
-  async (newProduct: Product) => {
-    const response = await axios.post(
-      "https://fakestoreapi.com/products",
-      newProduct
-    );
-    localStorage.setItem(
-      `product: ${response.data}`,
-      JSON.stringify(response.data)
-    );
+  async () => {
+    const response = await axios.post("https://fakestoreapi.com/products");
     console.log(response.data);
     return response.data;
   }

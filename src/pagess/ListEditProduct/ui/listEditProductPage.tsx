@@ -1,6 +1,5 @@
 "use client";
 import { useEffect } from "react";
-import { getProducts } from "@/shared/model/products/products";
 import {
   Table,
   TableBody,
@@ -10,17 +9,12 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "@/shared/lib/reduxHooks";
+import { useAppSelector } from "@/shared/lib/reduxHooks";
 
 const ListEditProductPage = () => {
-  const dispatch = useAppDispatch();
   const {
     create: { products },
   } = useAppSelector((state) => state);
-
-  useEffect(() => {
-    dispatch(getProducts());
-  }, [dispatch]);
 
   return (
     <TableContainer component={Paper}>

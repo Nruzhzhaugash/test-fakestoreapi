@@ -115,7 +115,7 @@ export default function ProductsPage() {
                     style={{ marginBottom: "1rem" }}
                   />
                   <div className="grid mb-[30px] grid-cols-4 gap-10">
-                    <ProductList amount={displayedProducts} products={list} />
+                    <ProductList amount={displayedProducts} products={filteredProducts} />
                   </div>
                 </>
               )}
